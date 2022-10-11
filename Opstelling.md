@@ -22,6 +22,8 @@
   - [8.2. Rollen](#82-rollen)
 - [9. Netwerk Diagram](#9-netwerk-diagram)
 
+<div style="page-break-after: always;"></div>
+
 ## 1. Minimale systeemvereisten
   - **CPU:** Processor met 12 kernen
   - **RAM:** 10 GB
@@ -67,12 +69,12 @@
   - **Adapter 1:** Intern netwerk (winnet)
     - **IP adres:** 192.168.22.20
 
+<div style="page-break-after: always;"></div>
+
 ### 4.2. Rollen
 
 - Certificate Authority
 - DNS_2
-
-<div style="page-break-after: always;"></div>
 
 ## 5. VM 3: ISS Webserver
 
@@ -107,6 +109,8 @@
 ### 6.2. Rollen
 
 - SQL Database
+
+<div style="page-break-after: always;"></div>
 
 ## 7. VM 4: Exchange
 
@@ -143,6 +147,8 @@
 
   - Test machine
   - Management tools voor headless servers en database
+
+<div style="page-break-after: always;"></div>
 
 ## 9. Netwerk Diagram
 
