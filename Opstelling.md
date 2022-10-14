@@ -25,6 +25,7 @@
 <div style="page-break-after: always;"></div>
 
 ## 1. Minimale systeemvereisten
+
   - **CPU:** Processor met 12 kernen
   - **RAM:** 10 GB
   - **Disk:** 150 GB
