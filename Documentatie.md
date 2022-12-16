@@ -1,4 +1,5 @@
-# Portfolio Windows Server II <!-- omit in toc --> <!--<div style="page-break-after: always;"></div>-->
+# 1. Documentatie Windows Server II <!-- omit in toc -->
+<!--<div style="page-break-after: always;"></div>-->
 
 - [1. De Opstelling](#1-de-opstelling)
   - [1.1. Minimale systeemvereisten](#11-minimale-systeemvereisten)
@@ -18,12 +19,12 @@
       - [1.4.2.3. DNS](#1423-dns)
   - [1.5. VM 3: Exchange](#15-vm-3-exchange)
     - [1.5.1. Configuratie in VirtualBox](#151-configuratie-in-virtualbox)
-    - [1.5.2. Geïnstalleerde server rollen](#152-geïnstalleerde-server-rollen)
-      - [1.5.2.1. Exchange mail server](#1521-exchange-mail-server)
+    - [1.5.2. Geïnstalleerde server rollen en software](#152-geïnstalleerde-server-rollen-en-software)
+      - [1.5.2.1. Prerequisites for Exchange 2019](#1521-prerequisites-for-exchange-2019)
+      - [1.5.2.2. Exchange mail server](#1522-exchange-mail-server)
   - [1.6. VM 4: Windows Client](#16-vm-4-windows-client)
     - [1.6.1. Configuratie in VirtualBox](#161-configuratie-in-virtualbox)
     - [1.6.2. Geïnstalleerde software](#162-geïnstalleerde-software)
-      - [1.6.2.1. SQL Server Management Studio](#1621-sql-server-management-studio)
   - [1.7. Netwerk Diagram](#17-netwerk-diagram)
 
 <div style="page-break-after: always;"></div>
@@ -202,9 +203,13 @@ Verder installeerde ik op [VM 1: Domain controller](#13-vm-1-domain-controller) 
 
 ##### 1.4.2.2. SQL Server
 
+Naast de Certificate Authority draait deze server ook een instantie van **SQL Server 2019**. De installatie betreft de **SQL Server Database Engine**, **SQL Server Analysis Services** en **SQL Server and Integration Services**. Omdat deze server een headless server is, zijn de **SQL Management Tools** niet geïnstalleerd op deze machine. (Dit wordt trouwens ook niet ondersteund door Microsoft). De management tools worden geïnstalleerd op `EP1-Client` om de SQL server te managen.
+
 ##### 1.4.2.3. DNS
 
 ### 1.5. VM 3: Exchange
+
+Volgens de [documentatie](https://learn.microsoft.com/en-us/exchange/plan-and-deploy/system-requirements?preserve-view=true&view=exchserver-2019#network-and-directory-server-requirements-for-exchange-2019) van Microsoft is het niet aangeraden om Exchange te installeren op Active Directory servers. Om de veiligheid te garanderen krijgt deze service zijn eigen VM die een **member server** zal worden binnen ons domein. Dit verminderd ook de kans op onvolledige functionaliteit en/of compatibiliteit.
 
 #### 1.5.1. Configuratie in VirtualBox
 
@@ -217,9 +222,26 @@ Verder installeerde ik op [VM 1: Domain controller](#13-vm-1-domain-controller) 
   - **Adapter 1:** Intern netwerk (winnet)
     - **IP adres:** 192.168.22.50
 
-#### 1.5.2. Geïnstalleerde server rollen
+De aangeraden hoeveelheid RAM die Microsoft specifieert is heel hoog. Omdat het niet realistisch is om 128 GB RAM toe te wijzen aan een VM dat lokaal draait op een laptop, geven we deze VM net iets meer RAM dan onze andere servers.
 
-##### 1.5.2.1. Exchange mail server
+De grootte van de harde schijf staat hier gedefinieerd als het aangeraden minimum van **30 GB**. Dit kan uiteraard verhoogd worden naargelang het host systeem genoeg middelen heeft. Hetzelfde kan gezegd worden over de hoeveelheid RAM. Hoe meer men kan toewijzen, hoe beter.
+
+#### 1.5.2. Geïnstalleerde server rollen en software
+
+##### 1.5.2.1. Prerequisites for Exchange 2019
+
+Volgende software moet geïnstalleerd zijn op de server alvorens de Exchange mail server te installeren.
+
+- [.NET Framework 4.8](https://download.visualstudio.microsoft.com/download/pr/014120d7-d689-4305-befd-3cb711108212/0fd66638cde16859462a6243a4629a50/ndp48-x86-x64-allos-enu.exe)
+- [Visual C++ Redistributable Package for Visual Studio 2012](https://www.microsoft.com/download/details.aspx?id=30679)
+- [Visual C++ Redistributable Package for Visual Studio 2013](https://support.microsoft.com/help/4032938/update-for-visual-c-2013-redistributable-package)
+- [IIS URL Rewrite Module](https://www.iis.net/downloads/microsoft/url-rewrite)
+
+##### 1.5.2.2. Exchange mail server
+
+De **Exchange Mailbox Role** werd geïnstalleerd. Dit installeerd automatisch ook de **Management Tools** op de server. De naam van de **Exchange Organization** is in deze setup `HoGent`. We maken voorlopig geen gebruik van **Active Directory split permissions** omdat dit het beheer van het domein zou compliceren.
+
+Omdat deze Exchange server enkel intern verkeer zal behandelen, zetten we **Malware Scanning** uit. Dit zal ook de performance in onze opstelling verhogen.
 
 ### 1.6. VM 4: Windows Client
 
@@ -244,7 +266,8 @@ Deze client binnen het domein `ws2-2223-arne.hogent` zal gebruikt worden om func
 
 #### 1.6.2. Geïnstalleerde software
 
-##### 1.6.2.1. SQL Server Management Studio
+- SQL Server Management Studio
+- .NET Framework 4.8 ()
 
 <div style="page-break-after: always;"></div>
 
